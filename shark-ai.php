@@ -1,12 +1,12 @@
 <?php
 
-define('SHARK_AI_VERSION', '0.0.1');
+define('SHARK_AI_VERSION', '1.0');
 
 /**
  * Plugin Name: Shark AI
  * Description: Tilføjer AI funktionalitet til SEO formål.
  * Plugin URI:        https://pbweb.dk/
- * Version:           0.1
+ * Version:           1.0
  * Author:            PB Web
  * Author URI:        https://pbweb.dk/
  * Text Domain:       pbweb
