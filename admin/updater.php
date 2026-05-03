@@ -1,7 +1,7 @@
 <?php
 
-add_filter('pre_set_site_transient_update_plugins', 'pb_automatic_updates', 100, 1);
-function pb_automatic_updates($data) {
+add_filter('pre_set_site_transient_update_plugins', 'shark_ai_automatic_updates', 100, 1);
+function shark_ai_automatic_updates($data) {
     // Theme information
     $id   = 'shark-ai/shark-ai.php'; // Folder name of the current theme
     $slug   = 'shark-ai'; // Folder name of the current theme

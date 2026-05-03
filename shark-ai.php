@@ -1,6 +1,6 @@
 <?php
 
-define('SHARK_AI_VERSION', '0.1');
+define('SHARK_AI_VERSION', '0.0.1');
 
 /**
  * Plugin Name: Shark AI
@@ -24,8 +24,39 @@ register_activation_hook( __FILE__, 'activate_shark_ai' );
 function activate_shark_ai() {
     shark_add_log_table();
 }
-register_deactivation_hook( __FILE__, 'deactivate_shark_ai' );
 
-function deactivate_shark_ai() {
 
-}
+add_action('init', function() {
+    register_post_meta('', '_ai_schema_markup', [
+        'show_in_rest' => true,
+        'single'       => true,
+        'type'         => 'string',
+        'auth_callback' => function() { return current_user_can('edit_posts'); }
+    ]);
+});
+
+add_action('wp_head', function() {
+    if (is_singular()) {
+        global $post;
+        $schema = get_post_meta($post->ID, '_ai_schema_markup', true);
+        $post_types = get_option( 'shark-ai-post-types', ['sb_accordion_faqs', 'page', 'post'] );
+
+        if (!empty($schema) && $schema != '{}' && in_array($post->post_type, $post_types)) {
+            echo "\n<!-- AI GEO Schema Markup -->\n";
+            echo "<script type=\"application/ld+json\">\n";
+            echo wp_unslash($schema);
+            echo "\n</script>\n";
+        }
+    }
+});
+
+add_filter('register_post_type_args', function($args, $post_type){
+
+    $post_types = get_option( 'shark-ai-post-types', ['sb_accordion_faqs', 'page', 'post'] );
+    if(in_array($post_type, $post_types)){
+        $args['show_in_rest'] = true;
+        $args['rest_base'] = $post_type;
+    }
+
+    return $args;
+}, 10, 2);

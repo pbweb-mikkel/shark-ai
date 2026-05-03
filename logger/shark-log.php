@@ -135,8 +135,8 @@ function shark_add_log_table() {
 
 function shark_log_admin_menu() {
     add_menu_page(
-        __( 'Log', 'pb' ),
-        __( 'Log', 'pb' ),
+        __( 'Shark Log', 'pb' ),
+        __( 'Shark Log', 'pb' ),
         'manage_options',
         'shark-log',
         'shark_log_page_contents',
