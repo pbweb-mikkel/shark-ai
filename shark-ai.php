@@ -1,12 +1,12 @@
 <?php
 
-define('SHARK_AI_VERSION', '1.0');
+define('SHARK_AI_VERSION', '1.1');
 
 /**
  * Plugin Name: Shark AI
  * Description: Tilføjer AI funktionalitet til SEO formål.
  * Plugin URI:        https://pbweb.dk/
- * Version:           1.0
+ * Version:           1.1
  * Author:            PB Web
  * Author URI:        https://pbweb.dk/
  * Text Domain:       pbweb
@@ -55,7 +55,10 @@ add_filter('register_post_type_args', function($args, $post_type){
     $post_types = get_option( 'shark-ai-post-types', ['sb_accordion_faqs', 'page', 'post'] );
     if(in_array($post_type, $post_types)){
         $args['show_in_rest'] = true;
-        $args['rest_base'] = $post_type;
+
+        if(!in_array($post_type, ['page', 'post'])){
+            $args['rest_base'] = $post_type;
+        }
     }
 
     return $args;
