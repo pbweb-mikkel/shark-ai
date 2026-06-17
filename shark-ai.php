@@ -1,12 +1,12 @@
 <?php
 
-define('SHARK_AI_VERSION', '1.1');
+define('SHARK_AI_VERSION', '1.11');
 
 /**
  * Plugin Name: Shark AI
  * Description: Tilføjer AI funktionalitet til SEO formål.
  * Plugin URI:        https://pbweb.dk/
- * Version:           1.1
+ * Version:           1.11
  * Author:            PB Web
  * Author URI:        https://pbweb.dk/
  * Text Domain:       pbweb
@@ -33,6 +33,24 @@ add_action('init', function() {
         'type'         => 'string',
         'auth_callback' => function() { return current_user_can('edit_posts'); }
     ]);
+
+    $yoast_fields = [
+        '_yoast_wpseo_title',
+        '_yoast_wpseo_metadesc',
+        '_yoast_wpseo_focuskw',
+    ];
+ 
+    foreach ($yoast_fields as $field) {
+        register_post_meta('', $field, [
+            'show_in_rest'  => true,
+            'single'        => true,
+            'type'          => 'string',
+            'auth_callback' => function() {
+                return current_user_can('edit_posts');
+            },
+        ]);
+    }
+    
 });
 
 add_action('wp_head', function() {
