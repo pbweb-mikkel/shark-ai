@@ -39,16 +39,20 @@ add_action('init', function() {
         '_yoast_wpseo_metadesc',
         '_yoast_wpseo_focuskw',
     ];
- 
-    foreach ($yoast_fields as $field) {
-        register_post_meta('', $field, [
-            'show_in_rest'  => true,
-            'single'        => true,
-            'type'          => 'string',
-            'auth_callback' => function() {
-                return current_user_can('edit_posts');
-            },
-        ]);
+
+    $post_types = get_post_types(['public' => true], 'names');
+
+    foreach ($post_types as $post_type) {
+        foreach ($yoast_fields as $field) {
+            register_post_meta($post_type, $field, [
+                'show_in_rest'  => true,
+                'single'        => true,
+                'type'          => 'string',
+                'auth_callback' => function() {
+                    return current_user_can('edit_posts');
+                },
+            ]);
+        }
     }
     
 });
